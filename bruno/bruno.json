@@ -1,0 +1,6 @@
+{
+  "version": "1",
+  "name": "Sahm Smart Order Workspace",
+  "type": "collection",
+  "ignore": ["node_modules", ".git"]
+}

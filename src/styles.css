@@ -1,0 +1,270 @@
+@import 'tailwindcss';
+
+/* ============================================================================ *
+ * Sahm Food — Smart Order Workspace
+ * Design system: "Polished SaaS", light + dark (auto + manual toggle).
+ *
+ * Semantic tokens are exposed to Tailwind via `@theme inline`, so utilities like
+ * `bg-surface` / `text-muted` compile to `var(--color-…)` and re-resolve when the
+ * theme flips — no rebuild, no duplicate class sets. Light values live in
+ * `@theme inline`; dark overrides the same custom properties.
+ * ============================================================================ */
+
+@theme {
+  /* Surfaces & text (light) */
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-2: #f2f4f7;
+  --color-elevated: #ffffff;
+  --color-line: #e7e9ee;
+  --color-line-strong: #d7dbe2;
+  --color-ink: #0d1424;
+  --color-muted: #59616f;
+  --color-faint: #8b93a2;
+
+  /* Brand (indigo) */
+  --color-brand: #4f46e5;
+  --color-brand-hover: #4338ca;
+  --color-brand-fg: #4f46e5;
+  --color-brand-soft: #eef2ff;
+  --color-brand-line: #dfe3ff;
+
+  /* Status — foreground (text/icon) + soft (tinted background) + line */
+  --color-success: #059669;
+  --color-success-soft: #ecfdf5;
+  --color-success-line: #c7f0dd;
+
+  --color-warning: #b45309;
+  --color-warning-soft: #fff7ed;
+  --color-warning-line: #fbe2c4;
+
+  --color-danger: #e11d48;
+  --color-danger-soft: #fff1f3;
+  --color-danger-line: #fbd0d8;
+
+  --color-info: #0369a1;
+  --color-info-soft: #f0f9ff;
+  --color-info-line: #cde9fb;
+
+  /* Radii */
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* Fonts */
+  --font-sans:
+    'Inter var', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ---- Dark theme (manual: data-theme="dark") ------------------------------ */
+:root[data-theme='dark'] {
+  --color-bg: #0a0d13;
+  --color-surface: #121722;
+  --color-surface-2: #1a2130;
+  --color-elevated: #161c28;
+  --color-line: #232b3a;
+  --color-line-strong: #313c50;
+  --color-ink: #e8ecf4;
+  --color-muted: #98a2b5;
+  --color-faint: #6b7688;
+
+  --color-brand: #6d6afc;
+  --color-brand-hover: #7f7dff;
+  --color-brand-fg: #a5b4fc;
+  --color-brand-soft: #1c1f3a;
+  --color-brand-line: #2b2f55;
+
+  --color-success: #34d399;
+  --color-success-soft: #0c2a20;
+  --color-success-line: #1c4d3b;
+
+  --color-warning: #fbbf24;
+  --color-warning-soft: #2b2110;
+  --color-warning-line: #4a3a17;
+
+  --color-danger: #fb7185;
+  --color-danger-soft: #2c1620;
+  --color-danger-line: #4d2531;
+
+  --color-info: #38bdf8;
+  --color-info-soft: #082635;
+  --color-info-line: #124258;
+}
+
+/* ---- Dark theme (auto: OS pref, unless user forced light) ----------------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #0a0d13;
+    --color-surface: #121722;
+    --color-surface-2: #1a2130;
+    --color-elevated: #161c28;
+    --color-line: #232b3a;
+    --color-line-strong: #313c50;
+    --color-ink: #e8ecf4;
+    --color-muted: #98a2b5;
+    --color-faint: #6b7688;
+
+    --color-brand: #6d6afc;
+    --color-brand-hover: #7f7dff;
+    --color-brand-fg: #a5b4fc;
+    --color-brand-soft: #1c1f3a;
+    --color-brand-line: #2b2f55;
+
+    --color-success: #34d399;
+    --color-success-soft: #0c2a20;
+    --color-success-line: #1c4d3b;
+
+    --color-warning: #fbbf24;
+    --color-warning-soft: #2b2110;
+    --color-warning-line: #4a3a17;
+
+    --color-danger: #fb7185;
+    --color-danger-soft: #2c1620;
+    --color-danger-line: #4d2531;
+
+    --color-info: #38bdf8;
+    --color-info-soft: #082635;
+    --color-info-line: #124258;
+  }
+}
+
+/* ---- Elevation tokens (shadow differs per theme) -------------------------- */
+:root {
+  --shadow-card: 0 1px 2px rgb(13 20 36 / 0.04), 0 1px 3px rgb(13 20 36 / 0.06);
+  --shadow-card-hover: 0 4px 12px rgb(13 20 36 / 0.08), 0 2px 4px rgb(13 20 36 / 0.05);
+  --shadow-pop: 0 12px 32px -8px rgb(13 20 36 / 0.18), 0 4px 8px rgb(13 20 36 / 0.08);
+}
+:root[data-theme='dark'],
+:root:not([data-theme='light']) {
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.4);
+    --shadow-card-hover: 0 6px 16px rgb(0 0 0 / 0.45), 0 2px 4px rgb(0 0 0 / 0.35);
+    --shadow-pop: 0 16px 40px -8px rgb(0 0 0 / 0.6), 0 4px 10px rgb(0 0 0 / 0.4);
+  }
+}
+:root[data-theme='dark'] {
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.4);
+  --shadow-card-hover: 0 6px 16px rgb(0 0 0 / 0.45), 0 2px 4px rgb(0 0 0 / 0.35);
+  --shadow-pop: 0 16px 40px -8px rgb(0 0 0 / 0.6), 0 4px 10px rgb(0 0 0 / 0.4);
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+/* ---- Base ---------------------------------------------------------------- */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-brand) 28%, transparent);
+}
+
+/* Themed scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-faint);
+  background-clip: content-box;
+}
+
+/* Visible focus rings for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Screen-reader-only utility. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Motion -------------------------------------------------------------- */
+@keyframes sahm-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes sahm-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes sahm-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-fade-in-up {
+  animation: sahm-fade-in-up 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.animate-pop-in {
+  animation: sahm-pop-in 0.2s ease-out both;
+}
+.animate-caret {
+  animation: sahm-caret 1s step-end infinite;
+}
+
+/* Respect reduced-motion globally (§10). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
