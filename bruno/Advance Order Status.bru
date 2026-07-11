@@ -1,0 +1,27 @@
+meta {
+  name: Advance Order Status
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/orders/o_1000/status
+  body: json
+  auth: none
+}
+
+headers {
+  Idempotency-Key: idem_demo_0001
+}
+
+body:json {
+  {
+    "status": "preparing",
+    "fromVersion": 1
+  }
+}
+
+docs {
+  Optimistic-concurrency guarded: a stale `fromVersion` returns 409; an unexpected
+  target status returns 422; replaying the same Idempotency-Key is a safe no-op.
+}

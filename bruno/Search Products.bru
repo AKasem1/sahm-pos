@@ -1,0 +1,22 @@
+meta {
+  name: Search Products
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/products?q=cheeseburger&category=burgers&limit=50
+  body: none
+  auth: none
+}
+
+params:query {
+  q: cheeseburger
+  category: burgers
+  limit: 50
+}
+
+docs {
+  Returns { total, products }. `total` is the full match count; `products` is
+  capped by `limit` (the client virtualizes the full set).
+}

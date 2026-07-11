@@ -1,0 +1,21 @@
+meta {
+  name: Cancel Order
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/orders/o_1001/cancel
+  body: json
+  auth: none
+}
+
+headers {
+  Idempotency-Key: idem_demo_0002
+}
+
+body:json {
+  {
+    "fromVersion": 1
+  }
+}

@@ -1,0 +1,24 @@
+meta {
+  name: AI Suggest
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/ai/suggest
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "orderId": "o_1000",
+    "type": "upsell"
+  }
+}
+
+docs {
+  Single-shot suggestion endpoint (for this collection). The app itself streams
+  suggestions client-side via AiAssistantService; this REST handler returns the
+  final content in one response and randomly injects a 503 to exercise error paths.
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Get Orders
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/orders
+  body: none
+  auth: none
+}
+
+docs {
+  Returns all seeded orders. Served by the MSW handler (requires the app/dev
+  server running so the service worker is active).
+}
