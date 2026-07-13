@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { toSignal } from '@angular/core/rxjs-interop';
 import { EmptyStateComponent } from '../../../shared/ui/empty-state.component';
 import { ErrorStateComponent } from '../../../shared/ui/error-state.component';
+import { IconComponent } from '../../../shared/ui/icon.component';
 import { SkeletonComponent } from '../../../shared/ui/skeleton.component';
 import { LoadGaugeComponent } from '../../kitchen-load/ui/load-gauge.component';
 import { LoadTrendComponent } from '../../kitchen-load/ui/load-trend.component';
@@ -35,6 +36,7 @@ import { initialKitchenLoad } from '../../../../mocks/data/kitchen';
     LoadGaugeComponent,
     LoadTrendComponent,
     AiPanelComponent,
+    IconComponent,
   ],
   template: `
     <div class="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_340px]">
@@ -97,7 +99,7 @@ import { initialKitchenLoad } from '../../../../mocks/data/kitchen';
             @default {
               @if (orders().length === 0) {
                 <app-empty-state
-                  icon="🍽️"
+                  icon="utensils"
                   title="No orders for this filter"
                   message="Orders will appear here as they arrive across channels."
                 />
@@ -134,7 +136,7 @@ import { initialKitchenLoad } from '../../../../mocks/data/kitchen';
           <div
             class="flex flex-col items-center gap-2 rounded-xl border border-dashed border-line bg-surface/40 p-6 text-center text-sm text-muted"
           >
-            <span class="text-2xl" aria-hidden="true">✨</span>
+            <app-icon name="sparkles" [size]="28" class="text-brand-fg" />
             <p>Select an order's <span class="font-semibold text-ink">AI</span> button to see live suggestions.</p>
           </div>
         }

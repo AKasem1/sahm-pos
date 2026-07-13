@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { IconComponent } from './icon.component';
 
 /**
  * Presentational error-state with a keyboard-reachable Retry button (§10).
@@ -7,16 +8,16 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 @Component({
   selector: 'app-error-state',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
   template: `
     <div
       class="flex flex-col items-center justify-center gap-3 rounded-xl border border-danger-line bg-danger-soft px-6 py-8 text-center"
       role="alert"
     >
       <div
-        class="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-xl shadow-[var(--shadow-card)]"
-        aria-hidden="true"
+        class="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-danger shadow-[var(--shadow-card)]"
       >
-        ⚠️
+        <app-icon name="warning" [size]="22" />
       </div>
       <p class="text-sm font-semibold text-danger">{{ title() }}</p>
       @if (message()) {

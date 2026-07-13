@@ -12,6 +12,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { PRODUCT_CATEGORIES, Product, ProductCategory } from '../../../core/models/product.model';
 import { EmptyStateComponent } from '../../../shared/ui/empty-state.component';
 import { ErrorStateComponent } from '../../../shared/ui/error-state.component';
+import { IconComponent } from '../../../shared/ui/icon.component';
 import { SpinnerComponent } from '../../../shared/ui/spinner.component';
 import { SearchStore } from '../data/search.store';
 import { ResultItemComponent } from './result-item.component';
@@ -33,6 +34,7 @@ import { ResultItemComponent } from './result-item.component';
     SpinnerComponent,
     EmptyStateComponent,
     ErrorStateComponent,
+    IconComponent,
   ],
   template: `
     <div class="mx-auto max-w-2xl">
@@ -46,7 +48,7 @@ import { ResultItemComponent } from './result-item.component';
         <div
           class="flex items-center gap-2.5 rounded-xl border border-line bg-surface px-3.5 shadow-[var(--shadow-card)] transition-all focus-within:border-brand focus-within:ring-4 focus-within:ring-brand-soft"
         >
-          <span aria-hidden="true" class="text-faint">🔎</span>
+          <app-icon name="search" [size]="18" class="text-faint" />
           <input
             #searchInput
             type="text"
@@ -73,7 +75,7 @@ import { ResultItemComponent } from './result-item.component';
               class="rounded-md p-1 text-faint transition-colors hover:bg-surface-2 hover:text-ink"
               aria-label="Clear search"
             >
-              ✕
+              <app-icon name="close" [size]="16" />
             </button>
           }
         </div>
@@ -122,7 +124,7 @@ import { ResultItemComponent } from './result-item.component';
                         (mousedown)="pickRecent($event, term)"
                         class="flex w-full items-center gap-2 px-3.5 py-2 text-left text-sm text-muted transition-colors hover:bg-surface-2 hover:text-ink"
                       >
-                        <span class="text-faint" aria-hidden="true">🕑</span> {{ term }}
+                        <app-icon name="clock" [size]="15" class="text-faint" /> {{ term }}
                       </button>
                     </li>
                   }
@@ -181,7 +183,7 @@ import { ResultItemComponent } from './result-item.component';
       @if (selected(); as p) {
         <app-empty-state
           class="mt-6 block"
-          icon="✅"
+          icon="check"
           [title]="'Selected: ' + p.name"
           message="In a real POS this would add the item to the active order."
         />

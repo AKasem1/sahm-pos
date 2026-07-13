@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { IconComponent, IconName } from './icon.component';
 
 /** Presentational empty-state (§10). Content projected for custom actions. */
 @Component({
   selector: 'app-empty-state',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
   template: `
     <div
       class="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-line bg-surface/40 px-6 py-12 text-center"
     >
       <div
-        class="flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-xl"
-        aria-hidden="true"
+        class="flex h-11 w-11 items-center justify-center rounded-full bg-surface-2 text-muted"
       >
-        {{ icon() }}
+        <app-icon [name]="icon()" [size]="22" />
       </div>
       <p class="text-sm font-semibold text-ink">{{ title() }}</p>
       @if (message()) {
@@ -23,7 +24,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   `,
 })
 export class EmptyStateComponent {
-  readonly icon = input('📭');
+  readonly icon = input<IconName>('inbox');
   readonly title = input('Nothing here yet');
   readonly message = input('');
 }

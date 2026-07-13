@@ -8,10 +8,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { ThemePref, ThemeService } from '../core/services/theme.service';
+import { IconComponent, IconName } from '../shared/ui/icon.component';
 
 interface ThemeOption {
   readonly value: ThemePref;
-  readonly icon: string;
+  readonly icon: IconName;
   readonly label: string;
   readonly hint: string;
 }
@@ -25,6 +26,7 @@ interface ThemeOption {
 @Component({
   selector: 'app-theme-toggle',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
   template: `
     <div class="relative">
       <button
@@ -39,8 +41,8 @@ interface ThemeOption {
         aria-label="Appearance"
         title="Appearance"
       >
-        <span class="text-base leading-none" aria-hidden="true">{{ triggerIcon() }}</span>
-        <span class="text-[10px] leading-none text-faint" aria-hidden="true">▾</span>
+        <app-icon [name]="triggerIcon()" [size]="16" />
+        <app-icon name="chevron-down" [size]="12" class="text-faint" />
       </button>
 
       @if (open()) {
@@ -72,16 +74,16 @@ interface ThemeOption {
               [class.bg-surface-2]="theme.pref() === opt.value"
             >
               <span
-                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-surface text-base ring-1 ring-inset ring-line"
-                aria-hidden="true"
-                >{{ opt.icon }}</span
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-surface text-muted ring-1 ring-inset ring-line"
               >
+                <app-icon [name]="opt.icon" [size]="16" />
+              </span>
               <span class="min-w-0 flex-1">
                 <span class="block text-sm font-medium text-ink">{{ opt.label }}</span>
                 <span class="block text-xs text-faint">{{ hintFor(opt) }}</span>
               </span>
               @if (theme.pref() === opt.value) {
-                <span class="text-sm text-brand-fg" aria-hidden="true">✓</span>
+                <app-icon name="check" [size]="16" class="text-brand-fg" />
               }
             </button>
           }
@@ -97,14 +99,16 @@ export class ThemeToggleComponent {
   readonly open = signal(false);
 
   readonly options: readonly ThemeOption[] = [
-    { value: 'light', icon: '☀️', label: 'Light', hint: 'Always light' },
-    { value: 'dark', icon: '🌙', label: 'Dark', hint: 'Always dark' },
-    { value: 'system', icon: '🖥️', label: 'System', hint: 'Match your device' },
+    { value: 'light', icon: 'sun', label: 'Light', hint: 'Always light' },
+    { value: 'dark', icon: 'moon', label: 'Dark', hint: 'Always dark' },
+    { value: 'system', icon: 'monitor', label: 'System', hint: 'Match your device' },
   ];
 
   /** The trigger shows the icon of the *resolved* theme, not the preference,
    * so it always reflects what's actually on screen. */
-  readonly triggerIcon = computed(() => (this.theme.resolved() === 'dark' ? '🌙' : '☀️'));
+  readonly triggerIcon = computed<IconName>(() =>
+    this.theme.resolved() === 'dark' ? 'moon' : 'sun',
+  );
 
   hintFor(opt: ThemeOption): string {
     if (opt.value === 'system') {

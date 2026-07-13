@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { RouterLink } from '@angular/router';
 import { ConnectionService } from '../../../core/services/connection.service';
 import { OfflineQueueService } from '../../../core/services/offline-queue.service';
+import { IconComponent, IconName } from '../../../shared/ui/icon.component';
 
 /**
  * Persistent offline / pending-sync banner (§7.5, §10). Rendered in the shell so
@@ -10,7 +11,7 @@ import { OfflineQueueService } from '../../../core/services/offline-queue.servic
 @Component({
   selector: 'app-offline-banner',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, IconComponent],
   template: `
     @if (visible()) {
       <div
@@ -20,7 +21,7 @@ import { OfflineQueueService } from '../../../core/services/offline-queue.servic
         aria-live="polite"
       >
         <div class="mx-auto flex max-w-[1600px] items-center gap-2.5">
-          <span aria-hidden="true">{{ glyph() }}</span>
+          <app-icon [name]="glyph()" [size]="16" [class.animate-spin]="queue.isReplaying()" />
           <span class="font-semibold">{{ headline() }}</span>
           <span class="hidden opacity-80 sm:inline">{{ detail() }}</span>
           @if (queue.totalCount() > 0) {
@@ -44,11 +45,11 @@ export class OfflineBannerComponent {
 
   readonly visible = computed(() => this.status() !== 'online' || this.queue.totalCount() > 0);
 
-  readonly glyph = computed(() => {
-    if (this.status() === 'offline') return '⚠️';
-    if (this.queue.isReplaying()) return '↻';
-    if (this.queue.failedCount() > 0) return '⚠️';
-    return '✓';
+  readonly glyph = computed<IconName>(() => {
+    if (this.status() === 'offline') return 'warning';
+    if (this.queue.isReplaying()) return 'refresh';
+    if (this.queue.failedCount() > 0) return 'warning';
+    return 'check';
   });
 
   readonly headline = computed(() => {
