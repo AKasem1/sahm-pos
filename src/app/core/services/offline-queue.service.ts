@@ -11,6 +11,7 @@ import {
 } from '../models/offline.model';
 import { Order } from '../models/order.model';
 import { MOCK_CONFIG } from '../tokens/mock-config.token';
+import { describeHttpError } from '../utils/http-error';
 import { actionDedupeKey } from '../utils/id';
 import { ConnectionService } from './connection.service';
 
@@ -184,7 +185,7 @@ export class OfflineQueueService {
       const exhausted = action.attempts + 1 >= this.config.retry.maxAttempts;
       this.patch(action.id, {
         syncState: exhausted ? 'failed' : 'pending',
-        lastError: describeError(err),
+        lastError: describeHttpError(err),
       });
     }
   }
@@ -224,11 +225,4 @@ export class OfflineQueueService {
   private remove(id: string): void {
     this._actions.update((list) => list.filter((a) => a.id !== id));
   }
-}
-
-function describeError(err: unknown): string {
-  if (err instanceof HttpErrorResponse) {
-    return `HTTP ${err.status}`;
-  }
-  return err instanceof Error ? err.message : 'Unknown error';
 }

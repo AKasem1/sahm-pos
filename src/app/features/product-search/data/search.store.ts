@@ -4,6 +4,7 @@ import { tapResponse } from '@ngrx/operators';
 import { EMPTY } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Product, ProductCategory } from '../../../core/models/product.model';
+import { describeHttpError } from '../../../core/utils/http-error';
 import { ProductCatalogService } from './product-catalog.service';
 
 export type SearchStatus = 'idle' | 'loading' | 'success' | 'error';
@@ -144,7 +145,7 @@ export class SearchStore extends ComponentStore<SearchState> {
           return this.catalog.search(q, category).pipe(
             tapResponse(
               (res) => this.setResults(res),
-              (err: unknown) => this.setError(describe(err)),
+              (err: unknown) => this.setError(describeHttpError(err)),
             ),
           );
         }),
@@ -174,11 +175,4 @@ function saveRecent(recent: string[]): void {
   } catch {
     // ignore quota / private-mode errors
   }
-}
-
-function describe(err: unknown): string {
-  if (typeof err === 'object' && err && 'status' in err) {
-    return `HTTP ${(err as { status: number }).status}`;
-  }
-  return err instanceof Error ? err.message : 'Search failed';
 }

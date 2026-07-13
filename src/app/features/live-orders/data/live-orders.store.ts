@@ -19,6 +19,7 @@ import { ConnectionService } from '../../../core/services/connection.service';
 import { OfflineQueueService, ReplayResult } from '../../../core/services/offline-queue.service';
 import { RealtimeService } from '../../../core/services/realtime.service';
 import { derivePriority, isDelayed } from '../../../core/utils/derive-priority';
+import { describeHttpError } from '../../../core/utils/http-error';
 import { idempotencyKey } from '../../../core/utils/id';
 import { isNewer } from '../../../core/utils/reconcile';
 import { initialKitchenLoad } from '../../../../mocks/data/kitchen';
@@ -222,7 +223,7 @@ export class LiveOrdersStore extends ComponentStore<LiveOrdersState> {
         return this.api.getOrders().pipe(
           tapResponse(
             (orders) => this.setOrders(orders),
-            (err: unknown) => this.setError(describe(err)),
+            (err: unknown) => this.setError(describeHttpError(err)),
           ),
         );
       }),
@@ -395,7 +396,7 @@ export class LiveOrdersStore extends ComponentStore<LiveOrdersState> {
       return;
     }
     this.replaceOrder(snapshot);
-    this.setError(`Action failed (${describe(err)}) — reverted.`);
+    this.setError(`Action failed (${describeHttpError(err)}) — reverted.`);
   }
 
   /** Convenience bootstrap for the page component. */
@@ -406,11 +407,4 @@ export class LiveOrdersStore extends ComponentStore<LiveOrdersState> {
     this.startPolling();
     this.listenReplay();
   }
-}
-
-function describe(err: unknown): string {
-  if (typeof err === 'object' && err && 'status' in err) {
-    return `HTTP ${(err as { status: number }).status}`;
-  }
-  return err instanceof Error ? err.message : 'error';
 }

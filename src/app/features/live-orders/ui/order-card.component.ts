@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { BadgeComponent, BadgeTone } from '../../../shared/ui/badge.component';
+import { IconComponent } from '../../../shared/ui/icon.component';
 import { RelativeTimePipe } from '../../../shared/pipes/relative-time.pipe';
 import { formatCurrency } from '../../../core/utils/format';
 import { nextStatus } from '../../../core/models/order.model';
@@ -14,7 +15,7 @@ import { StatusPipelineComponent } from './status-pipeline.component';
 @Component({
   selector: 'app-order-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BadgeComponent, StatusPipelineComponent, RelativeTimePipe],
+  imports: [BadgeComponent, StatusPipelineComponent, RelativeTimePipe, IconComponent],
   host: { class: 'block h-full' },
   template: `
     <article
@@ -66,7 +67,8 @@ import { StatusPipelineComponent } from './status-pipeline.component';
         <p
           class="mt-2.5 flex items-center gap-1.5 rounded-lg bg-danger-soft px-2.5 py-1.5 text-xs font-medium text-danger ring-1 ring-inset ring-danger-line"
         >
-          <span aria-hidden="true">⚠</span> High delivery risk · ETA {{ order().delivery?.etaMinutes }}m
+          <app-icon name="warning" [size]="14" /> High delivery risk · ETA
+          {{ order().delivery?.etaMinutes }}m
         </p>
       }
 
@@ -78,7 +80,7 @@ import { StatusPipelineComponent } from './status-pipeline.component';
             (click)="viewAssistant.emit(order())"
             class="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-brand-fg ring-1 ring-inset ring-brand-line transition-all hover:bg-brand-soft active:scale-95"
           >
-            ✨ AI
+            <app-icon name="sparkles" [size]="14" /> AI
           </button>
           @if (canCancel()) {
             <button

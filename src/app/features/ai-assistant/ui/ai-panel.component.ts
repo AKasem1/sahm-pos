@@ -14,6 +14,7 @@ import { Order } from '../../../core/models/order.model';
 import { OfflineQueueService } from '../../../core/services/offline-queue.service';
 import { CLOCK } from '../../../core/tokens/clock.token';
 import { idempotencyKey } from '../../../core/utils/id';
+import { IconComponent } from '../../../shared/ui/icon.component';
 import { AiAssistantStore } from '../data/ai-assistant.store';
 import { SuggestionCardComponent } from './suggestion-card.component';
 
@@ -26,7 +27,7 @@ import { SuggestionCardComponent } from './suggestion-card.component';
 @Component({
   selector: 'app-ai-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SuggestionCardComponent],
+  imports: [SuggestionCardComponent, IconComponent],
   template: `
     <div class="overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow-card)]">
       <header
@@ -34,10 +35,10 @@ import { SuggestionCardComponent } from './suggestion-card.component';
       >
         <div class="flex items-center gap-2">
           <span
-            class="flex h-7 w-7 items-center justify-center rounded-lg bg-brand/10 text-sm ring-1 ring-inset ring-brand-line"
-            aria-hidden="true"
-            >✨</span
+            class="flex h-7 w-7 items-center justify-center rounded-lg bg-brand/10 text-brand-fg ring-1 ring-inset ring-brand-line"
           >
+            <app-icon name="sparkles" [size]="15" />
+          </span>
           <div>
             <h2 class="text-sm font-semibold text-ink">AI Assistant</h2>
             <p class="text-xs text-faint">{{ order().reference }}</p>
@@ -49,7 +50,7 @@ import { SuggestionCardComponent } from './suggestion-card.component';
           class="rounded-lg p-1.5 text-faint transition-colors hover:bg-surface-2 hover:text-ink"
           aria-label="Close assistant"
         >
-          ✕
+          <app-icon name="close" [size]="16" />
         </button>
       </header>
 

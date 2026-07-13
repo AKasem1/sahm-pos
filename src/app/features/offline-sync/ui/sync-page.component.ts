@@ -74,7 +74,7 @@ import { PendingQueueListComponent } from './pending-queue-list.component';
 
       @if (queue.totalCount() === 0) {
         <app-empty-state
-          icon="✅"
+          icon="check"
           title="Everything is in sync"
           message="Go offline and advance or cancel an order on the Live Orders page to see queued actions here."
         />
